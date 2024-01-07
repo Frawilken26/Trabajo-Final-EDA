@@ -1,0 +1,61 @@
+class Archivo:
+    def _init_(self, nombre, contenido=""):
+        self.nombre = nombre
+        self.contenido = contenido
+
+
+class Carpeta:
+    def _init_(self, nombre):
+        self.nombre = nombre
+        self.archivos = []
+        self.carpetas = []
+
+
+# Funcion para crear archivos
+def crear_archivo(nombre, contenido=""):
+    return Archivo(nombre, contenido)
+
+# Funcion para crear carpetas
+def crear_carpeta(nombre):
+    return Carpeta(nombre)
+
+# Funcion para copiar archivos
+def copiar_archivo(archivo):
+    return Archivo(archivo.nombre, archivo.contenido)
+
+# Funcion para copiar carpetas
+def copiar_carpeta(carpeta):
+    nueva_carpeta = Carpeta(carpeta.nombre)
+    for archivo in carpeta.archivos:
+        nueva_carpeta.archivos.append(copiar_archivo(archivo))
+    for subcarpeta in carpeta.carpetas:
+        nueva_carpeta.carpetas.append(copiar_carpeta(subcarpeta))
+    return nueva_carpeta
+
+
+if _name_ == "_main_":
+    # Creando instancia de carpetas....
+    mi_carpeta = crear_carpeta("Mi Carpeta")
+    archivo1 = crear_archivo("Archivo1", "Contenido del Archivo 1")
+    archivo2 = crear_archivo("Archivo2", "Contenido del Archivo 2")
+    # Agregando instancia a la clase archivo a la lista de archivos dentro de la clase carpeta que se llama "mi_carpeta"
+    mi_carpeta.archivos.append(archivo1)
+    mi_carpeta.archivos.append(archivo2)
+
+    # Uso de la funcion copiar carpeta
+    copia_carpeta = copiar_carpeta(mi_carpeta)
+
+    # Mostrando información de las carpetas y archivos.
+    print("Carpeta original:")
+    print("Nombre:", mi_carpeta.nombre)
+    print("Archivos:")
+    for archivo in mi_carpeta.archivos:
+        print("- Nombre:", archivo.nombre)
+        print("  Contenido:", archivo.contenido)
+
+    print("\nCarpeta copiada:")
+    print("Nombre:", copia_carpeta.nombre)
+    print("Archivos:")
+    for archivo in copia_carpeta.archivos:
+        print("- Nombre:", archivo.nombre)
+        print("  Contenido:", archivo.contenido)
